@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'de.wolfig'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+task createJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Notes',
+                'Implementation-Version': version,
+                'Main-Class': 'de.wolfig.notes.Main'
+    }
+    baseName = project.name + '-javafx'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+dependencies {
+    // JFoeniX
+    compile group: 'com.jfoenix', name: 'jfoenix', version: '8.0.9'
+    compile group: 'io.datafx', name: 'flow', version: '8.0.1'
+    compile group: 'io.datafx', name: 'datafx', version: '8.0.1'
+    compile group: 'org.kordamp.ikonli', name:'ikonli-javafx', version: '2.4.0'
+    compile group: 'org.kordamp.ikonli', name: 'ikonli-fontawesome5-pack', version: '2.4.0'
+
+    // serialisation
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+
+    // testing
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
